@@ -1,0 +1,78 @@
+﻿@model Data.DataModel.CreateCarTypeDataModel
+
+
+@section Css{
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+}
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            $("#btn-add-carTypeName").click(function () {
+                var formData = new FormData();
+                formData.append("carTypeName", $("#carTypeName").val())
+                var url = '@Url.Action("CarTypeCreate","Home")';
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    data: formData,
+                });
+            });
+
+            ////ResetForm
+            //function resetForm() {
+            //    $("#carTypeName").val("");
+            //}
+
+            ////SuccessResponse
+            //function successCallBack(response) {
+            //    if (response.responseCode == 0) {
+            //        resetForm();
+            //        bootbox.alert(response.responseMessage, function () {
+            //            //Herhangi bir operasyon olucaksa burada belirtebilirsiniz. Sayfa Yenilemek gibi vs.
+            //        })
+            //    }
+            //    else {
+            //        bootbox.alert(response.responseMessage)
+            //    }
+            //}
+        });
+    </script>
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cart Type</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+<body>
+    <h1 class="h3">Add Car Type</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-8">
+            <form>
+                <div class="form-group row mt-2">
+                    <label for="carTypeName" class="col-sm-3 col-form-label">Car Type Name</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="carTypeName" class="form-control">
+                    </div>
+                </div>
+
+
+                <div class="form-group row mt-2">
+                    <div class="col-sm-10">
+                        <a href="javascript:void(0)" class="btn btn-primary" id="btn-add-carTypeName">Add New Car Type</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+﻿@model CarModel
+
+@section Css{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+}
+@section Scripts{
+    <script src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+
+            $(".myModal").click(function () {
+                var id = $(this).attr("vehicle");
+                var url = '@Url.Action("ViewPrice","Home")' + '/' + id;
+
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    success: function (response) {
+                        $('#car').html(response);
+                    },
+                })
+            });
+        });
+    </script>
+}
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Cars Table</h1>
+            <hr />
+            <table id="myTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td style="width:30px;">Id</td>
+                        <td style="width:50px;">Plate</td>
+                        <td style="width:50px;">Enter Time</td>
+                        <td style="width:50px;">CarModel Name</td>
+                        <td style="width:100px;"></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Cars.Count() > 0)
+                    {
+                        @foreach (var item in Model.Cars)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Plate</td>
+                                <td>@item.EnterTime</td>
+                                <td>@item.CarType.CarTypeName</td>
+                                <td class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary mr-2 myModal" vehicle="@item.Id" data-toggle="modal" data-target="#exampleModal">
+                                    Show Price
+                                </button>
+                                    <form asp-controller="Home" asp-action="CarDelete" method="post" style="display:inline;">
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <button type="submit" class="btn btn-danger mr-2">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between">
+        <div class="row my-2 ">
+            <div class="col-md-12 d-flex justify-content-end">
+                <a class="btn btn-primary btn-lg" asp-controller="Home" asp-action="CarCreate">Add New Car</a>
+            </div>
+        </div>
+        <div class="row my-2 ">
+            <div class="col-md-12 d-flex justify-content-end">
+                <a class="btn btn-primary btn-lg" asp-controller="Home" asp-action="CarTypeCreate">Add New Car Type</a>
+            </div>
+        </div>
+        <div class="row my-2 ">
+            <div class="col-md-12 d-flex justify-content-end">
+                <a class="btn btn-primary btn-lg" asp-controller="Home" asp-action="ViewCarTypes">View All Car Types</a>
+            </div>
+        </div>
+    </div>
+
+
+    
+    
